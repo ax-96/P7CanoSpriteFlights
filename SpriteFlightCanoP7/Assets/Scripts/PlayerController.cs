@@ -5,8 +5,14 @@ using UnityEngine.UIElements;
 
 
 public class PlayerController : MonoBehaviour
+
 {
     public float thrustForce = 1f;
+    private float elapsedTime = 0f;
+
+    private float score = 0f;
+    public float scoreMultiplier = 10f;
+    public GameObject boosterFlame;
     Rigidbody2D rb;
     private static object GetDebuggerDisplay()
     {
@@ -22,6 +28,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        elapsedTime += Time.deltaTime;
+        score = Mathf.FloorToInt(elapsedTime * scoreMultiplier);
+        Debug.Log("Score: " + score);
+
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            boosterFlame.SetActive(true);
+        }
+        else if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            boosterFlame.SetActive(false);
+        }
+
         if (Mouse.current.leftButton.isPressed)
         {
             //Calculate Mouse Direction
